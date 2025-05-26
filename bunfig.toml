@@ -1,3 +1,6 @@
 [serve.static]
 plugins = ["bun-plugin-tailwind"]
 
+[build]
+minify = true
+
