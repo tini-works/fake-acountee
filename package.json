@@ -3,9 +3,10 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --hot index.ts",
-    "build": "bun build ./index.ts --outdir ./dist",
-    "start": "bun run index.ts"
+    "dev": "node build-css.js && bun run --hot index.ts",
+    "build": "node build-css.js && bun build ./index.ts --outdir ./dist",
+    "start": "bun run index.ts",
+    "build:css": "node build-css.js"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -24,4 +25,3 @@
     "react-router-dom": "^7.6.1"
   }
 }
-

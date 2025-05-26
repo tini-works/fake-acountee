@@ -1,26 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import InvoicesPage from "./pages/InvoicesPage";
-import { invoiceLoader } from "./loaders/invoiceLoader";
+import InvoiceDetail from "./pages/InvoiceDetail";
+import InvoiceList from "./pages/InvoiceList";
 
-// Create a browser router with data loading capabilities
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       {
-        path: "/",
-        element: <InvoicesPage />,
-        loader: invoiceLoader,
+        index: true,
+        element: <InvoiceList />,
       },
       {
-        path: "/invoices/:invoiceId",
-        element: <InvoicesPage />,
-        loader: invoiceLoader,
-      }
-    ]
-  }
+        path: "invoices/:id",
+        element: <InvoiceDetail />,
+      },
+    ],
+  },
 ]);
 
 export default router;
