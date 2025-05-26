@@ -16,7 +16,7 @@ A frontend-only UI implementation of an accounting/invoice management system.
 - Bun - JavaScript runtime and package manager
 - React - UI library
 - React Router - For navigation
-- Tailwind CSS - For styling
+- Tailwind CSS - For styling (using bun-plugin-tailwind)
 - DaisyUI - UI component library for Tailwind CSS
 
 ## Getting Started
@@ -55,15 +55,16 @@ bun run build
 
 ```
 fake-acountee/
-├── public/             # Static assets
+├── public/             # Static assets and HTML templates
+│   └── index.html      # Main HTML template
 ├── src/
 │   ├── components/     # Reusable UI components
 │   ├── pages/          # Page components
 │   ├── styles/         # CSS styles
 │   ├── App.tsx         # Main App component
-│   └── main.tsx        # Entry point
-├── index.html          # HTML template
+│   └── frontend.tsx    # Frontend entry point
 ├── index.ts            # Server file
+├── bunfig.toml         # Bun configuration
 ├── tailwind.config.js  # Tailwind CSS configuration
 └── package.json        # Project dependencies and scripts
 ```

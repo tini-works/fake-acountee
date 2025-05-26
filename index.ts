@@ -1,34 +1,22 @@
+import homepage from './public/index.html';
 import { serve } from 'bun';
-import { join } from 'path';
-import { readFileSync } from 'fs';
-
-const publicDir = './';
-const indexHtml = readFileSync(join(publicDir, 'index.html'), 'utf8');
 
 serve({
-  port: 3000,
-  fetch(req) {
+  static: {
+    "/": homepage,
+  },
+  development: true,
+  
+  async fetch(req) {
     const url = new URL(req.url);
     
-    // Serve static files
-    if (url.pathname.startsWith('/dist/')) {
-      try {
-        const filePath = join(publicDir, url.pathname);
-        const file = Bun.file(filePath);
-        return new Response(file);
-      } catch (error) {
-        return new Response('Not Found', { status: 404 });
-      }
+    // API routes would go here
+    if (url.pathname.startsWith('/api/')) {
+      return new Response('API endpoint not implemented', { status: 501 });
     }
     
-    // For all other routes, serve the index.html
-    return new Response(indexHtml, {
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    });
+    // Return 404 for unmatched routes
+    return new Response('Not Found', { status: 404 });
   },
 });
-
-console.log('Server running at http://localhost:3000');
 
