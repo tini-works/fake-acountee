@@ -1,145 +1,168 @@
-import React, { useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import InvoiceDetail from '../components/InvoiceDetail';
+import { useLoaderData, useParams, Link } from "react-router-dom";
+import { Invoice } from "../data/mockData";
 
-// Mock data for the invoices
-const mockInvoices = [
-  {
-    id: '00000052',
-    companyName: 'CÔNG TY CỔ PHẦN PHÁT TRIỂN VÀ ĐẦU TƯ LONG PHƯỚC',
-    date: '4/9/2024',
-    amount: '33.006.960 đ',
-    imported: true,
-    number: '00000052',
-    status: 'imported',
-    supplier: {
-      name: 'CÔNG TY CỔ PHẦN PHÁT TRIỂN VÀ ĐẦU TƯ LONG PHƯỚC',
-      id: '0318126808',
-      address: '195 Đường 5, khu phố Lân Ngoài, Phường Long Phước, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    buyer: {
-      name: 'CÔNG TY TNHH SILENTIUM VIỆT NAM',
-      id: '0316023807',
-      address: '95 - 97 Nguyễn Cơ Thạch, Phường An Lợi Đông, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    lineItems: [
-      { id: 1, description: 'Combo nướng thập cẩm cho người lớn', unit: 'Phần', quantity: 28.0000000, unitPrice: 399.000, taxRate: 8, total: 11172.000 },
-      { id: 2, description: 'Dịch vụ lẩu trải', unit: 'Khách', quantity: 38.0000000, unitPrice: 450.000, taxRate: 8, total: 17100.000 },
-      { id: 3, description: 'Nước suối', unit: 'Chai', quantity: 19.0000000, unitPrice: 15.000, taxRate: 8, total: 285.000 },
-      { id: 4, description: 'Mì xào hải sản tôm mực', unit: 'Phần', quantity: 2.0000000, unitPrice: 120.000, taxRate: 8, total: 240.000 },
-      { id: 5, description: 'Cơm chiên hải sản', unit: 'Phần', quantity: 2.0000000, unitPrice: 120.000, taxRate: 8, total: 240.000 },
-      { id: 6, description: 'Soup', unit: 'Phần', quantity: 2.0000000, unitPrice: 120.000, taxRate: 8, total: 240.000 },
-      { id: 7, description: 'Gỏi bò bóp thấu', unit: 'Phần', quantity: 3.0000000, unitPrice: 145.000, taxRate: 8, total: 435.000 },
-      { id: 8, description: 'Lẩu thái chua cay', unit: 'Phần', quantity: 2.0000000, unitPrice: 325.000, taxRate: 8, total: 650.000 },
-      { id: 9, description: 'Trà đào chanh sả', unit: 'Phần', quantity: 4.0000000, unitPrice: 50.000, taxRate: 8, total: 200.000 }
-    ]
-  },
-  {
-    id: '1748184',
-    companyName: 'CÔNG TY TNHH GRAB',
-    date: '4/9/2024',
-    amount: '5.996.000 đ',
-    imported: true,
-    number: '1748184',
-    status: 'imported',
-    supplier: {
-      name: 'CÔNG TY TNHH GRAB',
-      id: '1748184',
-      address: 'Hà Nội, Việt Nam'
-    },
-    buyer: {
-      name: 'CÔNG TY TNHH SILENTIUM VIỆT NAM',
-      id: '0316023807',
-      address: '95 - 97 Nguyễn Cơ Thạch, Phường An Lợi Đông, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    lineItems: [
-      { id: 1, description: 'Dịch vụ vận chuyển', unit: 'Chuyến', quantity: 10.0000000, unitPrice: 599.600, taxRate: 8, total: 5996.000 }
-    ]
-  },
-  {
-    id: '00000471',
-    companyName: 'CÔNG TY CỔ PHẦN GLANZ INTERNATIONAL',
-    date: '4/9/2024',
-    amount: '200.000 đ',
-    imported: true,
-    number: '00000471',
-    status: 'imported',
-    supplier: {
-      name: 'CÔNG TY CỔ PHẦN GLANZ INTERNATIONAL',
-      id: '00000471',
-      address: 'Hồ Chí Minh, Việt Nam'
-    },
-    buyer: {
-      name: 'CÔNG TY TNHH SILENTIUM VIỆT NAM',
-      id: '0316023807',
-      address: '95 - 97 Nguyễn Cơ Thạch, Phường An Lợi Đông, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    lineItems: [
-      { id: 1, description: 'Dịch vụ tư vấn', unit: 'Giờ', quantity: 2.0000000, unitPrice: 100.000, taxRate: 8, total: 200.000 }
-    ]
-  },
-  {
-    id: '78177823',
-    companyName: 'CÔNG TY CỔ PHẦN THƯƠNG MẠI BÁCH HÓA XANH',
-    date: '4/9/2024',
-    amount: '163.017 đ',
-    imported: true,
-    number: '78177823',
-    status: 'imported',
-    supplier: {
-      name: 'CÔNG TY CỔ PHẦN THƯƠNG MẠI BÁCH HÓA XANH',
-      id: '78177823',
-      address: 'Hồ Chí Minh, Việt Nam'
-    },
-    buyer: {
-      name: 'CÔNG TY TNHH SILENTIUM VIỆT NAM',
-      id: '0316023807',
-      address: '95 - 97 Nguyễn Cơ Thạch, Phường An Lợi Đông, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    lineItems: [
-      { id: 1, description: 'Hàng hóa tiêu dùng', unit: 'Lô', quantity: 1.0000000, unitPrice: 163.017, taxRate: 8, total: 163.017 }
-    ]
-  },
-  {
-    id: '1386513',
-    companyName: 'CÔNG TY TNHH GRAB',
-    date: '5/9/2024',
-    amount: '25.000 đ',
-    imported: true,
-    number: '1386513',
-    status: 'imported',
-    supplier: {
-      name: 'CÔNG TY TNHH GRAB',
-      id: '1386513',
-      address: 'Hà Nội, Việt Nam'
-    },
-    buyer: {
-      name: 'CÔNG TY TNHH SILENTIUM VIỆT NAM',
-      id: '0316023807',
-      address: '95 - 97 Nguyễn Cơ Thạch, Phường An Lợi Đông, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam'
-    },
-    lineItems: [
-      { id: 1, description: 'Dịch vụ vận chuyển', unit: 'Chuyến', quantity: 1.0000000, unitPrice: 25.000, taxRate: 8, total: 25.000 }
-    ]
-  }
-];
+interface LoaderData {
+  invoices: Invoice[];
+  invoice?: Invoice;
+}
 
-const InvoicesPage: React.FC = () => {
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(mockInvoices[0].id);
-
-  const selectedInvoice = mockInvoices.find(invoice => invoice.id === selectedInvoiceId) || null;
+function InvoicesPage() {
+  const { invoices, invoice } = useLoaderData() as LoaderData;
+  const params = useParams();
+  const selectedInvoiceId = params.invoiceId;
 
   return (
     <div className="flex h-screen">
-      <Sidebar 
-        invoices={mockInvoices}
-        onInvoiceSelect={setSelectedInvoiceId}
-        selectedInvoiceId={selectedInvoiceId}
-      />
-      <InvoiceDetail invoice={selectedInvoice} />
+      {/* Sidebar */}
+      <div className="w-1/4 border-r border-gray-200 overflow-y-auto">
+        <div className="p-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold">Invoices</h2>
+          <button className="mt-2 btn-primary">Import</button>
+        </div>
+        <div>
+          {invoices.map((inv) => (
+            <Link 
+              to={`/invoices/${inv.id}`} 
+              key={inv.id}
+              className={`sidebar-item ${inv.status === 'imported' ? 'imported' : ''} ${selectedInvoiceId === inv.id ? 'bg-blue-100' : ''}`}
+            >
+              <div>
+                <div className="font-medium">{inv.company.name}</div>
+                <div className="text-sm text-gray-500">{inv.date}</div>
+              </div>
+              <div>
+                <div className="text-right">{inv.amount}</div>
+                {inv.status === 'imported' && (
+                  <div className="badge badge-imported text-right">Imported</div>
+                )}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="w-3/4 overflow-y-auto">
+        {invoice ? (
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-bold">{invoice.company.name}</h1>
+              <div>
+                <button className="btn-secondary mr-2">Mark as obsolete</button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 mb-6">
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Invoice</h3>
+                <div className="mt-1">
+                  <div className="flex items-center">
+                    <span className="text-gray-500 mr-2">🗓️</span>
+                    <span>{invoice.date}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-gray-500 mr-2">#</span>
+                    <span>{invoice.id}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-gray-500 mr-2">$</span>
+                    <span>{invoice.amount}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                    <div className="mt-1">
+                      <span className="badge badge-imported">Imported</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500">Payment</h3>
+                    <div className="mt-1">
+                      <button className="btn-secondary">Set payment details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 mb-6">
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Supplier</h3>
+                <div className="mt-1">
+                  <div className="font-medium">{invoice.supplier.name}</div>
+                  <div className="text-sm text-gray-500">{invoice.supplier.id}</div>
+                  <div className="text-sm text-gray-500">{invoice.supplier.address}</div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-500">Buyer</h3>
+                <div className="mt-1">
+                  <div className="font-medium">{invoice.buyer.name}</div>
+                  <div className="text-sm text-gray-500">{invoice.buyer.id}</div>
+                  <div className="text-sm text-gray-500">{invoice.buyer.address}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Service</h3>
+              <table className="w-full invoice-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Unit</th>
+                    <th>Qty.</th>
+                    <th>Per Unit</th>
+                    <th>Tax Rate</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoice.items.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.description}</td>
+                      <td>{item.unit}</td>
+                      <td>{item.quantity.toFixed(6)}</td>
+                      <td>{item.price}</td>
+                      <td>{item.taxRate}</td>
+                      <td>{item.total}</td>
+                    </tr>
+                  ))}
+                  <tr className="font-bold">
+                    <td colSpan={6} className="text-right">Total</td>
+                    <td>{invoice.totalAmount}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Link payment request</h3>
+              <div className="flex items-center">
+                <span className="text-gray-500 mr-2">Not selected</span>
+                <button className="btn-secondary">Set payment request</button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-gray-600">Select an invoice to view details</h2>
+              <p className="text-gray-500 mt-2">Click on an invoice from the sidebar to view its details</p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default InvoicesPage;
 

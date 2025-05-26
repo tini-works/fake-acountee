@@ -1,14 +1,12 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import InvoicesPage from './pages/InvoicesPage';
+import { Outlet } from "react-router-dom";
 
-const App: React.FC = () => {
+function App() {
   return (
-    <Routes>
-      <Route path="/" element={<InvoicesPage />} />
-    </Routes>
+    <div className="min-h-screen bg-gray-50">
+      <Outlet />
+    </div>
   );
-};
+}
 
 export default App;
 
