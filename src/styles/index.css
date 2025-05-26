@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50;
+}
+
+.invoice-table th,
+.invoice-table td {
+  @apply py-2 px-4 text-left;
+}
+
+.invoice-table th {
+  @apply bg-gray-100 font-medium;
+}
+
+.invoice-table tr {
+  @apply border-b border-gray-200;
+}
+
+.invoice-table tr:last-child {
+  @apply border-b-0;
+}
+
+.sidebar-item {
+  @apply flex items-center justify-between p-3 hover:bg-gray-100 cursor-pointer;
+}
+
+.sidebar-item.imported {
+  @apply bg-gray-200;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300;
+}
+
+.badge {
+  @apply px-2 py-1 text-xs rounded;
+}
+
+.badge-imported {
+  @apply bg-gray-600 text-white;
+}
+
