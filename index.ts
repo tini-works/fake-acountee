@@ -15,7 +15,17 @@ serve({
       return new Response('API endpoint not implemented', { status: 501 });
     }
     
-    // Return 404 for unmatched routes
+    // For SPA routing, return the index.html for all non-API routes
+    // This allows client-side routing to handle the routes
+    if (!url.pathname.includes('.')) {
+      return new Response(homepage, {
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      });
+    }
+    
+    // Return 404 for unmatched static assets
     return new Response('Not Found', { status: 404 });
   },
 });
