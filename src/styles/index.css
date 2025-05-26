@@ -2,46 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .invoice-table th,
-  .invoice-table td {
-    @apply py-2 px-4 text-left;
-  }
+/* Define custom styles without using @apply */
+.invoice-table th,
+.invoice-table td {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: left;
+}
 
-  .invoice-table th {
-    @apply bg-gray-100 font-medium;
-  }
+.invoice-table th {
+  background-color: #f3f4f6;
+  font-weight: 500;
+}
 
-  .invoice-table tr {
-    @apply border-b border-gray-200;
-  }
+.invoice-table tr {
+  border-bottom-width: 1px;
+  border-color: #e5e7eb;
+}
 
-  .invoice-table tr:last-child {
-    @apply border-b-0;
-  }
+.invoice-table tr:last-child {
+  border-bottom-width: 0;
+}
 
-  .sidebar-item {
-    @apply flex items-center justify-between p-3 hover:bg-gray-100 cursor-pointer;
-  }
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  cursor: pointer;
+}
 
-  .sidebar-item.imported {
-    @apply bg-gray-200;
-  }
+.sidebar-item:hover {
+  background-color: #f3f4f6;
+}
 
-  .btn-primary {
-    @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;
-  }
+.sidebar-item.imported {
+  background-color: #e5e7eb;
+}
 
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300;
-  }
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
 
-  .badge {
-    @apply px-2 py-1 text-xs rounded;
-  }
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
 
-  .badge-imported {
-    @apply bg-gray-600 text-white;
-  }
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+.badge {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.badge-imported {
+  background-color: #4b5563;
+  color: white;
 }
 
